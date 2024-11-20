@@ -55,14 +55,14 @@ class PatentCrew:
     def generate_queries_task(self) -> Task:
         return Task(
             config = self.tasks_config["generate_queries_task"],
-            agent = self.strategist_agent
+            agent = self.strategist_agent()
         )
     
     @task 
     def patent_search_task(self) -> Task:
         return Task(
             config = self.tasks_config["patent_search_task"],
-            agent = self.researcher_agent,
+            agent = self.researcher_agent(),
             tools = [PatentSearchTool()]
         )
         
@@ -70,14 +70,14 @@ class PatentCrew:
     def select_patents_task(self) -> Task:
         return Task(
             config = self.tasks_config["select_patents_task"],
-            agent = self.strategist_agent
+            agent = self.strategist_agent()
         )
         
     @task
     def summarize_task(self) -> Task:
         return Task(
             config = self.tasks_config["summarize_task"],
-            agent = self.writer_agent
+            agent = self.writer_agent()
         )
     
     @crew
@@ -132,14 +132,14 @@ class ScholarCrew:
     def generate_queries_task(self) -> Task:
         return Task(
             config = self.tasks_config["generate_queries_task"],
-            agent = self.strategist_agent
+            agent = self.strategist_agent()
         )
     
     @task 
     def scholar_search_task(self) -> Task:
         return Task(
             config = self.tasks_config["scholar_search_task"],
-            agent = self.researcher_agent,
+            agent = self.researcher_agent(),
             tools = [ScholarSearchTool()]
         )
         
@@ -147,14 +147,14 @@ class ScholarCrew:
     def select_papers_task(self) -> Task:
         return Task(
             config = self.tasks_config["select_papers_task"],
-            agent = self.strategist_agent
+            agent = self.strategist_agent()
         )
     
     @task
     def summarize_task(self) -> Task:
         return Task(
             config = self.tasks_config["summarize_task"],
-            agent = self.writer_agent
+            agent = self.writer_agent()
         )
     
     @crew
@@ -190,15 +190,15 @@ class InsightsCrew:
     def insight_task(self) -> Task:
         return Task(
             config = self.tasks_config["insight_task"],
-            agent = self.insight_agent,
-            context = ScholarCrew.summarize_task
+            agent = self.insight_agent(),
+            
         )
         
     @crew
     def insights_crew(self) -> Crew:
         return Crew(
-            agents=[self.insight_agent],
-            tasks=[self.insight_task],
+            agents=self.agents,  
+            tasks=self.tasks, 
             process=Process.sequential,
             verbose=True,
             memory = False

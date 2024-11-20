@@ -50,7 +50,7 @@ scrape_content_task:
     For each of the top 5 patent results obtained in Task 2, use the scrape tool to capture the detailed content from the patent pages. 
     Ensure that the abstract, claims, and any relevant technical information are accurately captured for each patent. 
     Only extract text-based content—ignore images, diagrams, or any non-textual elements. 
-    The focus should be on key textual information that provides insights into the patent’s claims, technical details, and innovations.
+    The focus should be on key textual information that provides insights into the patent's claims, technical details, and innovations.
   expected_output: >
     A collection of the scraped content for each patent, presented in a structured format. 
     Each patent should include the abstract, claims, and any important technical details, with the text organized for easy analysis.
@@ -70,9 +70,9 @@ select_patents_task:
     Purpose: {purpose}\n
     Focus Constraints: {focus_constraints}\n\n
     Instructions:\n
-    1. Review the patent’s title, abstract, claims, and technical content.\n
+    1. Review the patent's title, abstract, claims, and technical content.\n
     2. Evaluate how well the patent addresses the key challenges described in the original topic and purpose.\n
-    3. Rank the patents in order of relevance based on how well they align with the project’s objectives.\n
+    3. Rank the patents in order of relevance based on how well they align with the project's objectives.\n
     4. Provide a brief explanation of why each patent was selected, focusing on its relevance to the sector, the challenge, and strategic priorities.
     
   expected_output: >
@@ -92,9 +92,9 @@ select_papers_task:
     Challenge Description: {challenge_description}\n
     Purpose: {purpose}\n
     Focus Constraints: {focus_constraints}\n\n    Instructions:\n
-    1. Review the paper’s title, abstract, and key findings.\n
+    1. Review the paper's title, abstract, and key findings.\n
     2. Evaluate how well the paper addresses the key challenges outlined in the original topic and purpose.\n
-    3. Rank the papers in order of relevance based on how well they align with the project’s objectives.\n
+    3. Rank the papers in order of relevance based on how well they align with the project's objectives.\n
     4. Provide a brief explanation of why each paper was selected, focusing on its relevance to the sector, the challenge, and strategic priorities.
 
   expected_output: >
