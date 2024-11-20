@@ -81,7 +81,7 @@ writer:
     4. **Use Clear, Concise Language**: Avoid overly technical jargon unless absolutely necessary. Where technical terms are used, provide brief clarifications if they might be unfamiliar to general readers.\n
     5. **Maintain Accuracy and Neutral Tone**: Ensure that summaries remain factual and neutral, focusing on the patent content without adding subjective interpretations.\n
 
-insight_strategist:
+insight_agent:
   role: >
     Insight Strategist
   goal: >
