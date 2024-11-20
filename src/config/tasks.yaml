@@ -1,0 +1,135 @@
+generate_queries_task:
+  description: >
+    Based on the provided challenge (e.g., 'biodegradable packaging for food'), generate a set of five related search keywords 
+    that are concise, semantically related, and cover possible variations of the original query. 
+    The queries should be brief and use as few words as possible to maximize relevance and clarity.\n\n
+    Context:\n
+    Sector: {sector}\n
+    Target Clients: {target_clients}\n
+    Resources: {resources}\n
+    Strategic Priorities: {strategic_priorities}\n
+    Project Name: {project_name}\n
+    Challenge Description: {challenge_description}\n
+    Purpose: {purpose}\n
+    Focus Constraints: {focus_constraints}\n\n
+    Instructions:\n
+    1. Identify the key concepts in the challenge description.\n
+    2. Generate search queries that reflect these key concepts while considering variations in phrasing, synonyms, or related terms.\n
+    3. Ensure that the queries are concise and directly related to the core aspects of the challenge.\n
+    4. Aim for a balance of broad and specific keywords that would lead to relevant information.\n
+    5. Ensure that each query is distinct but related, to maximize the range of results without redundancy.
+
+  expected_output: >
+    A list of five keywords related to the challenge: {challenge_description} that can be used for further searching. 
+    Example: ['biodegradable food packaging', 'compostable packaging materials', 'eco-friendly packaging for food', 'plant-based packaging for perishables']
+
+patent_search_task:
+  description: >
+    For each of the queries generated in Task 1, use the search tool to query Google Patents and retrieve 
+    the top 5 most relevant search results for each query. Ensure that the patents selected are closely related to the original topic, 
+    focusing on titles, abstracts, and URLs. Avoid extracting image links; only text-based information should be extracted. 
+    Each query should be treated separately, ensuring the most relevant patents for each search term are identified.
+
+  expected_output: >
+    A list of 25 total query results, combining the top 5 relevant patents for each of the 5 queries generated in Task 1. 
+    Each result should include the title, URL, and abstract, formatted in a tabular structure. Do not include images.
+
+scholar_search_task:
+  description: >
+    For each of the queries generated in Task 1, use the search tool to query Google Scholar and retrieve 
+    the top 5 most relevant search results for each query. Ensure that the articles selected are closely related to the original topic, 
+    focusing on titles, abstracts, and URLs. Avoid extracting image links or full-text articles; only text-based information should be extracted. 
+    Each query should be treated separately to identify the most relevant academic articles for each search term.
+    {html_template}
+  expected_output: >
+    A list of 25 total query results, combining the top 5 relevant academic articles for each of the 5 queries generated in Task 1. 
+    Each result should include the title, URL, and abstract, presented in a tabular format. Do not include images or full-text links.
+    
+scrape_content_task:
+  description: >
+    For each of the top 5 patent results obtained in Task 2, use the scrape tool to capture the detailed content from the patent pages. 
+    Ensure that the abstract, claims, and any relevant technical information are accurately captured for each patent. 
+    Only extract text-based content—ignore images, diagrams, or any non-textual elements. 
+    The focus should be on key textual information that provides insights into the patent’s claims, technical details, and innovations.
+  expected_output: >
+    A collection of the scraped content for each patent, presented in a structured format. 
+    Each patent should include the abstract, claims, and any important technical details, with the text organized for easy analysis.
+
+select_patents_task:
+  description: >
+    Review all the patents identified in the previous task. For each patent, assess its relevance based on the 
+    provided context, including the challenge description, sector, target clients, and strategic priorities. 
+    Use your judgment to determine how closely the patent aligns with the core objectives of the project.\n\n
+    Context:\n
+    Sector: {sector}\n
+    Target Clients: {target_clients}\n
+    Resources: {resources}\n
+    Strategic Priorities: {strategic_priorities}\n
+    Project Name: {project_name}\n
+    Challenge Description: {challenge_description}\n
+    Purpose: {purpose}\n
+    Focus Constraints: {focus_constraints}\n\n
+    Instructions:\n
+    1. Review the patent’s title, abstract, claims, and technical content.\n
+    2. Evaluate how well the patent addresses the key challenges described in the original topic and purpose.\n
+    3. Rank the patents in order of relevance based on how well they align with the project’s objectives.\n
+    4. Provide a brief explanation of why each patent was selected, focusing on its relevance to the sector, the challenge, and strategic priorities.
+    
+  expected_output: >
+    A shortlist of the 10 most relevant patents to the original challenge: {challenge_description}. 
+    Present a table with the following columns: patent number, title, awardees, URL, a summary of the abstract, and a brief rationale explaining why each patent is relevant.
+
+select_papers_task:
+  description: >
+    Review all the research papers identified in the previous task. For each paper, assess its relevance based on the 
+    provided context, including the challenge description, sector, target clients, and strategic priorities. 
+    Use your judgment to determine how closely the paper aligns with the core objectives of the project.\n\n    Context:\n
+    Sector: {sector}\n
+    Target Clients: {target_clients}\n
+    Resources: {resources}\n
+    Strategic Priorities: {strategic_priorities}\n
+    Project Name: {project_name}\n
+    Challenge Description: {challenge_description}\n
+    Purpose: {purpose}\n
+    Focus Constraints: {focus_constraints}\n\n    Instructions:\n
+    1. Review the paper’s title, abstract, and key findings.\n
+    2. Evaluate how well the paper addresses the key challenges outlined in the original topic and purpose.\n
+    3. Rank the papers in order of relevance based on how well they align with the project’s objectives.\n
+    4. Provide a brief explanation of why each paper was selected, focusing on its relevance to the sector, the challenge, and strategic priorities.
+
+  expected_output: >
+    A shortlist of the 10 most relevant papers to the original challenge: {challenge_description}. 
+    Present a table with the following columns: paper title, authors, URL, summary of the abstract, and a brief rationale explaining why each paper is relevant.
+   
+summarize_task:
+  description: >
+    Based on the selected content from the previous step, first reproduce the output table from the previous task as it is, 
+    with the details of the patents and papers.\n\n    Next, write a concise, clear, and comprehensive summary that explains the content of the selected patents and research papers. 
+    This summary should focus on how these findings relate to the original challenge and purpose. Ensure the summary includes the following:\n
+    1. **Overview of Innovations**: Highlight the key technological innovations found in the papers and patents.\n
+    2. **Research Centers and Trends**: Mention where major research is being conducted, which institutions or industries are leading in this space, and any significant geographical concentrations.\n
+    3. **Research Age and Relevance**: Discuss how recent the research is and whether it's still relevant to the current challenge.\n
+    4. **Technical Details Translation**: Translate technical content into digestible information for a non-technical audience, ensuring clarity and accessibility.\n
+    5. **Relevance to Challenge**: Tie each piece of research to the challenge, explaining how it might contribute to solving the problem at hand.
+  expected_output: >
+    Reproduce the output table from the previous task, followed by a clear and concise summary of the patents and papers. 
+    The summary should cover innovations, research trends, the age of research, and its relevance to the challenge.
+
+insight_task:
+  description: >
+    Generate five novel and thought-provoking insights based on the previous research findings, including the patents and research papers. 
+    An insight should uncover counterintuitive or surprising aspects about the current state of things, often by identifying underlying tensions 
+    or contradictions in the data. For example, there could be a disconnect between what consumers say they want and what is actually available, 
+    or conflicting trends that reveal hidden opportunities. Ensure that each insight is original and provides fresh perspectives.\n\n    Example Insights:\n
+    - There is a disconnect between the expert recommendation of intuitive eating and people's ingrained habits of following external food rules, 
+    relying on data rather than bodily cues.\n
+    - There's a mismatch between people's desire for natural, whole-food nutrition and the prevalence of artificial supplements in the performance nutrition market.\n\n    Instructions:\n
+    1. **Identify Tensions or Contradictions**: Look for contradictions or tensions in the research that might lead to surprising insights.\n
+    2. **Generate Catchy Titles**: Each insight should have a compelling and catchy title that summarizes the tension or novel idea.\n
+    3. **Provide Context**: After each insight, write a brief description that explains the underlying tension and the implications of the finding.\n
+    4. **Cite Relevant Sources**: Reference the specific papers or patents from previous tasks that support or relate to each insight.\n
+    5. **Explain Relevance to the Company**: For each insight, explain how it could impact the company and the challenge at hand, and why it is important for their strategic priorities.\n
+    6. **Link to Challenge and Strategic Priorities**: Ensure that each insight is directly tied to the challenge, sector, target clients, and strategic priorities of the company.
+  expected_output: >
+    A set of five novel, insightful, and cleverly formulated insights that address key contradictions or surprising trends in the research. 
+    Each insight should include a catchy title, a brief description, relevant sources from the research, and an explanation of how it applies to the specific company and its strategic priorities.
