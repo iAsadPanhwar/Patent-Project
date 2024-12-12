@@ -203,3 +203,38 @@ class InsightsCrew:
             verbose=True,
             memory = False
         )
+
+@CrewBase
+class OpportunitiesCrew:
+    """Generate Opportunity Spaces Crew"""
+
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+    
+    @agent
+    def insight_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config["insight_agent"],
+            llm=llm,
+            verbose=True,
+            allow_delegation=False,
+            memory = True
+        )
+        
+    @task
+    def insight_task(self) -> Task:
+        return Task(
+            config = self.tasks_config["insight_task"],
+            agent = self.insight_agent(),
+            
+        )
+        
+    @crew
+    def insights_crew(self) -> Crew:
+        return Crew(
+            agents=self.agents,  
+            tasks=self.tasks, 
+            process=Process.sequential,
+            verbose=True,
+            memory = False
+        )

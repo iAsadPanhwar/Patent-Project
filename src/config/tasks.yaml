@@ -133,3 +133,61 @@ insight_task:
   expected_output: >
     A set of five novel, insightful, and cleverly formulated insights that address key contradictions or surprising trends in the research. 
     Each insight should include a catchy title, a brief description, relevant sources from the research, and an explanation of how it applies to the specific company and its strategic priorities.
+
+opportunities_task:
+  description: >
+    Here are a few examples of opportunity spaces that flow from insights, with their title and main ideas list:
+
+    Insight1        
+    People don't think of financial services as individuals, they think for their whole family. Especially during recessions, people rely more and more on their family network        
+    Opportunity space 1:
+    Family bundling: Seeing the family as a wider financial unit, throughout each stage of life. Helping families maximize collective benefits; facilitating seamless household management; Creating meaningful experiences for younger users        "
+    Ideas:
+    Shared Family Dashboard
+     Collective Minimal Spending: All family members' spending counts towards monthly minimum & cash back points 
+     Payment Tracker: Keep track of upcoming utility payments and easily request family members to pay.
+     Family Goals: Set a real shared family goal (e.g. trip to Thailand) and make the process of saving fun and educational through gamified features.
+     Family Financial Education: Fun and interactive course for the whole family, including gamified weekly tasks. 
+     Family Cards: Branded credit/debit cards with family initials or images."
+
+    Insight 2:
+    People look for ways to improve their financial behavior, like saving plans and bargain hunting        
+    Opportunity space 2:
+    Come as you are: we help people hack their daily routine, using behavioral design to nudge users for the optimum when life is up or down. Supporting clients as they develop healthy financial habits; Helping our clients navigate the low moments of life        
+    Ideas:
+    "Simulate-it: Personal simulation of loan-repayment program, credit limit, or investment forecasting.
+     A message from the future you: Plan ahead for financial security at an older age, taking into account predicted COL & playfully visualising your elderly appearance.
+     Round it up: Automatic round-up from every purchase towards a dedicated savings goal (e.g. university tuition)
+     A piece of advice: Proactive notifications advising on ways to minimise fees and upgrade terms, based on personal usage data.
+     Build a Habit: Compete against yourself by setting personal goals and paying yourself when they're accomplished. 
+     Far from the eye: Increase your savings by automatically directing a percentage of your monthly salary to a dedicated savings zone."
+
+    Make sure the opportunity spaces are intriguingly formulated, that they are specific and non-obvious, but also that they encompass a wide range of ways to address the challenge. Make sure that the ideas, while innovative and interesting, stay true to the brand's DNA.
+
+        Context:\n
+        Sector: {sector}\n
+        Target Clients: {target_clients}\n
+        Resources: {resources}\n
+        Strategic Priorities: {strategic_priorities}\n
+        Project Name: {project_name}\n
+        Challenge Description: {challenge_description}\n
+        Purpose: {purpose}\n
+        Focus Constraints: {focus_constraints}
+  expected_output: >
+    Five opportunity spaces, each composed of a catchy title, a short description, a reference to the insights that support it, and a list of five relevant product or service ideas.
+
+opp_image_task: 
+  description: >
+    For each of the opportunity spaces, pick the first idea mentioned and generate a simple, realistic, tasteful image of the product described. Make the image simple, elegant and essential. Make sure the image stays true to the brand's DNA.
+        Context:\n
+        Sector: {sector}\n
+        Target Clients: {target_clients}\n
+        Resources: {resources}\n
+        Strategic Priorities: {strategic_priorities}\n
+        Project Name: {project_name}\n
+        Challenge Description: {challenge_description}\n
+        Purpose: {purpose}\n
+        Focus Constraints: {focus_constraints}
+  
+  expected_output: >
+    A set of five images, one for each opportunity space
