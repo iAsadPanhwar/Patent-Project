@@ -11,6 +11,7 @@ from crewai_tools import SerperDevTool, ScrapeWebsiteTool, WebsiteSearchTool
 # Load environment variables
 load_dotenv()
 llm = ChatOpenAI(model="gpt-4o")
+llm_2 = ChatOpenAI(temperature=0.7, model_name="gpt-4-1106-preview")
 
 # Building Crews
 @CrewBase
@@ -212,25 +213,25 @@ class OpportunitiesCrew:
     tasks_config = "config/tasks.yaml"
     
     @agent
-    def insight_agent(self) -> Agent:
+    def opportunities_strategist(self) -> Agent:
         return Agent(
-            config=self.agents_config["insight_agent"],
-            llm=llm,
+            config=self.agents_config["opportunities_strategist"],
+            llm=llm_2,
             verbose=True,
             allow_delegation=False,
             memory = True
         )
         
     @task
-    def insight_task(self) -> Task:
+    def opportunities_task(self) -> Task:
         return Task(
-            config = self.tasks_config["insight_task"],
-            agent = self.insight_agent(),
+            config = self.tasks_config["opportunities_task"],
+            agent = self.opportunities_strategist(),
             
         )
         
     @crew
-    def insights_crew(self) -> Crew:
+    def opp_spaces_crew(self) -> Crew:
         return Crew(
             agents=self.agents,  
             tasks=self.tasks, 
