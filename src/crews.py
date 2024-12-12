@@ -7,11 +7,13 @@ from src.tools.patent_search_tool import PatentSearchTool
 from src.tools.new_search_tool import NewsSearchTool
 from src.tools.scholar_search_tool import ScholarSearchTool
 from crewai_tools import SerperDevTool, ScrapeWebsiteTool, WebsiteSearchTool
+from crewai_tools import DallETool
 
 # Load environment variables
 load_dotenv()
 llm = ChatOpenAI(model="gpt-4o")
-llm_2 = ChatOpenAI(temperature=0.7, model_name="gpt-4-1106-preview")
+llm_2 = ChatOpenAI(temperature=0.7, model="o1-preview")
+llm_3 = ChatOpenAI(temperature=0.7, model_name="gpt-4-1106-preview")
 
 # Building Crews
 @CrewBase
@@ -227,6 +229,42 @@ class OpportunitiesCrew:
         return Task(
             config = self.tasks_config["opportunities_task"],
             agent = self.opportunities_strategist(),
+            
+        )
+        
+    @crew
+    def opp_spaces_crew(self) -> Crew:
+        return Crew(
+            agents=self.agents,  
+            tasks=self.tasks, 
+            process=Process.sequential,
+            verbose=True,
+            memory = False
+        )
+
+@CrewBase
+class OpportunitiesImagesCrew:
+    """Generate Opportunity Spaces Images Crew"""
+
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+    
+    @agent
+    def opp_images(self) -> Agent:
+        return Agent(
+            config=self.agents_config["opp_images"],
+            llm=llm_3,
+            tools = [DallETool()],
+            verbose=True,
+            allow_delegation=False,
+            memory = True
+        )
+        
+    @task
+    def opportunities_task(self) -> Task:
+        return Task(
+            config = self.tasks_config["opp_image_task"],
+            agent = self.opp_images(),
             
         )
         
