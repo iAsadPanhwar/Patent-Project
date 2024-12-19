@@ -191,3 +191,17 @@ opp_image_task:
   
   expected_output: >
     A set of five images, one for each opportunity space
+
+doc_analyst_task:
+  description: >
+    Analyze the attached documents {documents} to identify insights that could be relevant to finding solutions to the challenge below.  Make sure to include direct quotes from the text and references when relevant.
+    Output a summary of the content of the document, with particular focus on the elements that could help solve the challenge. If documents {documents} are not attached you should move on to other task. Answer should be in english
+        Context:\n
+        Sector: {sector}\n
+        Target Clients: {target_clients}\n
+        Resources: {resources}\n
+        Strategic Priorities: {strategic_priorities}\n
+        Project Name: {project_name}\n
+        Challenge Description: {challenge_description}\n
+        Purpose: {purpose}\n
+        Focus Constraints: {focus_constraints}
