@@ -205,3 +205,7 @@ doc_analyst_task:
         Challenge Description: {challenge_description}\n
         Purpose: {purpose}\n
         Focus Constraints: {focus_constraints}
+  
+  expected_output: >
+    Output a summary of the content of the document, with particular focus on the elements that could help solve the challenge.
+    If documents {documents} are not attached you should move on.

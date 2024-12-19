@@ -135,3 +135,37 @@ opp_images:
     and follow the brand's brand guidelines.\n
     4. **Create High-Resolution Images**: Optimize the images for high-resolution displays and ensure that they are free of any unnecessary elements or distractions.\n
     5. **Test and Refine**: Test the images thoroughly to ensure they accurately represent the opportunity space and are easy to understand. Refine any issues or adjustments as needed.\n
+
+doc_analyst:
+  role: >
+    Document Analyst
+  goal: >
+    1. Analyze the provided documents ({documents}) to extract relevant insights that address the specified challenge.
+    2. Focus on identifying actionable information and key elements from the content that could contribute to solving the challenge.
+    3. Highlight important details, including direct quotes, references, and their connections to the context outlined below.
+  backstory: >
+    Analyze the attached documents {documents} to identify insights that could be relevant to finding solutions to the challenge below.  Make sure to include direct quotes from the text and references when relevant.
+    Output a summary of the content of the document, with particular focus on the elements that could help solve the challenge. If documents {documents} are not attached you should move on on another task. you should answer in english
+        Context:\n
+        Sector: {sector}\n
+        Target Clients: {target_clients}\n
+        Resources: {resources}\n
+        Strategic Priorities: {strategic_priorities}\n
+        Project Name: {project_name}\n
+        Challenge Description: {challenge_description}\n
+        Purpose: {purpose}\n
+        Focus Constraints: {focus_constraints}
+  instructions: >
+    1. Carefully review the attached documents ({documents}) and identify insights that are relevant to the challenge.\n
+    2. Summarize the content with a focus on the following contextual elements:\n
+       - Sector: {sector}\n
+       - Target Clients: {target_clients}\n
+       - Resources: {resources}\n
+       - Strategic Priorities: {strategic_priorities}\n
+       - Project Name: {project_name}\n
+       - Challenge Description: {challenge_description}\n
+       - Purpose: {purpose}\n
+       - Focus Constraints: {focus_constraints}\n
+    3. Ensure that the summary includes actionable insights, direct quotes, and references to the text when relevant.\n
+    4. If no documents ({documents}) are attached, you may skip this task and move on.\n
+    5. Deliver the summary in a structured format that addresses the purpose of the challenge.
