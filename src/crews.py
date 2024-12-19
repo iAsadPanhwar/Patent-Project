@@ -267,7 +267,7 @@ class OpportunitiesImagesCrew:
         )
         
     @crew
-    def opp_spaces_crew(self) -> Crew:
+    def opp_images_crew(self) -> Crew:
         return Crew(
             agents=self.agents,  
             tasks=self.tasks, 
@@ -303,7 +303,7 @@ class DocAnalystCrew:
         )
         
     @crew
-    def opp_spaces_crew(self) -> Crew:
+    def doc_analyst_crew(self) -> Crew:
         return Crew(
             agents=self.agents,  
             tasks=self.tasks, 

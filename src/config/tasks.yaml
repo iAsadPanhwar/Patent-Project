@@ -117,7 +117,7 @@ summarize_task:
 
 insight_task:
   description: >
-    Generate five novel and thought-provoking insights based on the previous research findings, including the patents and research papers. 
+    Generate five novel and thought-provoking insights based on the previous research findings, including the patents and research papers and insights from {doc_summary} if attached, else leave document part. 
     An insight should uncover counterintuitive or surprising aspects about the current state of things, often by identifying underlying tensions 
     or contradictions in the data. For example, there could be a disconnect between what consumers say they want and what is actually available, 
     or conflicting trends that reveal hidden opportunities. Ensure that each insight is original and provides fresh perspectives.\n\n    Example Insights:\n
