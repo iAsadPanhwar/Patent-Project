@@ -6,6 +6,7 @@ from src.crews import PatentCrew, ScholarCrew, InsightsCrew
 patent_crew = PatentCrew().patent_crew()
 scholar_crew = ScholarCrew().scholar_crew()
 insights_crew = InsightsCrew().insights_crew()
+
 # Define inputs
 input_3 = {
     "company_name": "Fastrock Coffee",

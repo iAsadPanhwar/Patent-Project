@@ -1,13 +1,11 @@
 from dotenv import load_dotenv
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, task, crew
-from datetime import datetime
 from langchain_openai import ChatOpenAI
 from src.tools.patent_search_tool import PatentSearchTool
-from src.tools.new_search_tool import NewsSearchTool
 from src.tools.scholar_search_tool import ScholarSearchTool
-from crewai_tools import SerperDevTool, ScrapeWebsiteTool, WebsiteSearchTool
 from crewai_tools import DallETool
+from crewai_tools import CSVSearchTool, DOCXSearchTool, TXTSearchTool
 
 # Load environment variables
 load_dotenv()
@@ -265,6 +263,42 @@ class OpportunitiesImagesCrew:
         return Task(
             config = self.tasks_config["opp_image_task"],
             agent = self.opp_images(),
+            
+        )
+        
+    @crew
+    def opp_spaces_crew(self) -> Crew:
+        return Crew(
+            agents=self.agents,  
+            tasks=self.tasks, 
+            process=Process.sequential,
+            verbose=True,
+            memory = False
+        )
+
+@CrewBase
+class DocAnalystCrew:
+    """Generate Opportunity Spaces Images Crew"""
+
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+    
+    @agent
+    def doc_analyst(self) -> Agent:
+        return Agent(
+            config=self.agents_config["doc_analyst"],
+            llm=llm_3,
+            tools = [CSVSearchTool(),DOCXSearchTool(),TXTSearchTool()],
+            verbose=True,
+            allow_delegation=False,
+            memory = True
+        )
+        
+    @task
+    def doc_analyst_task(self) -> Task:
+        return Task(
+            config = self.tasks_config["doc_analyst_task"],
+            agent = self.doc_analyst(),
             
         )
         
