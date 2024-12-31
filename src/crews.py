@@ -4,7 +4,8 @@ from crewai.project import CrewBase, agent, task, crew
 from langchain_openai import ChatOpenAI
 from src.tools.patent_search_tool import PatentSearchTool
 from src.tools.scholar_search_tool import ScholarSearchTool
-from crewai_tools import DallETool
+from src.tools.new_search_tool import NewsSearchTool
+from crewai_tools import DallETool, ScrapeWebsiteTool, WebsiteSearchTool, EXASearchTool, SerperDevTool
 from crewai_tools import CSVSearchTool, DOCXSearchTool, TXTSearchTool
 
 # Load environment variables
@@ -287,7 +288,7 @@ class DocAnalystCrew:
     def doc_analyst(self) -> Agent:
         return Agent(
             config=self.agents_config["doc_analyst"],
-            llm=llm_3,
+            llm=llm,
             tools = [CSVSearchTool(),DOCXSearchTool(),TXTSearchTool()],
             verbose=True,
             allow_delegation=False,
@@ -311,3 +312,147 @@ class DocAnalystCrew:
             verbose=True,
             memory = False
         )
+        
+@CrewBase
+class TrendsCrew:
+    
+
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+    
+    @agent
+    def researcher_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config["researcher"],
+            llm=llm,
+            tools = [SerperDevTool(),ScrapeWebsiteTool()],
+            verbose=True,
+            allow_delegation=False,
+            memory = True
+        )
+        
+    @task
+    def doc_analyst_task(self) -> Task:
+        return Task(
+            config = self.tasks_config["trends_task"],
+            agent = self.researcher_agent(),
+            
+        )
+        
+    @crew
+    def trends_crew(self) -> Crew:
+        return Crew(
+            agents=self.agents,  
+            tasks=self.tasks, 
+            process=Process.sequential,
+            verbose=True,
+            memory = False
+        )
+
+@CrewBase
+class NewsCrew:
+    
+
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+    
+    @agent
+    def researcher_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config["researcher"],
+            llm=llm,
+            tools = [NewsSearchTool()],
+            verbose=True,
+            allow_delegation=False,
+            memory = True
+        )
+        
+    @task
+    def doc_analyst_task(self) -> Task:
+        return Task(
+            config = self.tasks_config["news_task"],
+            agent = self.researcher_agent(),
+            
+        )
+        
+    @crew
+    def news_crew(self) -> Crew:
+        return Crew(
+            agents=self.agents,  
+            tasks=self.tasks, 
+            process=Process.sequential,
+            verbose=True,
+            memory = False
+        )
+        
+@CrewBase
+class CostumersCrew:
+    
+
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+    
+    @agent
+    def researcher_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config["researcher"],
+            llm=llm,
+            tools = [SerperDevTool(),ScrapeWebsiteTool()],
+            verbose=True,
+            allow_delegation=False,
+            memory = True
+        )
+        
+    @task
+    def doc_analyst_task(self) -> Task:
+        return Task(
+            config = self.tasks_config["costumers_task"],
+            agent = self.researcher_agent(),
+            
+        )
+        
+    @crew
+    def costumers_crew(self) -> Crew:
+        return Crew(
+            agents=self.agents,  
+            tasks=self.tasks, 
+            process=Process.sequential,
+            verbose=True,
+            memory = False
+        )     
+
+@CrewBase
+class CompetitorsCrew:
+    
+
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+    
+    @agent
+    def researcher_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config["researcher"],
+            llm=llm,
+            tools = [SerperDevTool(),ScrapeWebsiteTool()],
+            verbose=True,
+            allow_delegation=False,
+            memory = True
+        )
+        
+    @task
+    def doc_analyst_task(self) -> Task:
+        return Task(
+            config = self.tasks_config["competitors_task"],
+            agent = self.researcher_agent(),
+            
+        )
+        
+    @crew
+    def competitors_crew(self) -> Crew:
+        return Crew(
+            agents=self.agents,  
+            tasks=self.tasks, 
+            process=Process.sequential,
+            verbose=True,
+            memory = False
+        )           

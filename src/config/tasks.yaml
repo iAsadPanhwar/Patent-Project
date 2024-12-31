@@ -40,7 +40,6 @@ scholar_search_task:
     the top 5 most relevant search results for each query. Ensure that the articles selected are closely related to the original topic, 
     focusing on titles, abstracts, and URLs. Avoid extracting image links or full-text articles; only text-based information should be extracted. 
     Each query should be treated separately to identify the most relevant academic articles for each search term.
-    {html_template}
   expected_output: >
     A list of 25 total query results, combining the top 5 relevant academic articles for each of the 5 queries generated in Task 1. 
     Each result should include the title, URL, and abstract, presented in a tabular format. Do not include images or full-text links.
@@ -83,7 +82,9 @@ select_papers_task:
   description: >
     Review all the research papers identified in the previous task. For each paper, assess its relevance based on the 
     provided context, including the challenge description, sector, target clients, and strategic priorities. 
-    Use your judgment to determine how closely the paper aligns with the core objectives of the project.\n\n    Context:\n
+    Use your judgment to determine how closely the paper aligns with the core objectives of the project.\n\n   
+    
+    Context:\n
     Sector: {sector}\n
     Target Clients: {target_clients}\n
     Resources: {resources}\n
@@ -104,7 +105,9 @@ select_papers_task:
 summarize_task:
   description: >
     Based on the selected content from the previous step, first reproduce the output table from the previous task as it is, 
-    with the details of the patents and papers.\n\n    Next, write a concise, clear, and comprehensive summary that explains the content of the selected patents and research papers. 
+    with the details of the patents and papers.\n\n    
+    
+    Next, write a concise, clear, and comprehensive summary that explains the content of the selected patents and research papers. 
     This summary should focus on how these findings relate to the original challenge and purpose. Ensure the summary includes the following:\n
     1. **Overview of Innovations**: Highlight the key technological innovations found in the papers and patents.\n
     2. **Research Centers and Trends**: Mention where major research is being conducted, which institutions or industries are leading in this space, and any significant geographical concentrations.\n
@@ -117,13 +120,15 @@ summarize_task:
 
 insight_task:
   description: >
-    Generate five novel and thought-provoking insights based on the previous research findings, including the patents and research papers and insights from {doc_summary} if attached, else leave document part. 
+   Generate five novel and thought-provoking insights based on the previous research findings, including the patents and research papers and insights from {doc_summary} if attached, else leave document part. 
     An insight should uncover counterintuitive or surprising aspects about the current state of things, often by identifying underlying tensions 
     or contradictions in the data. For example, there could be a disconnect between what consumers say they want and what is actually available, 
-    or conflicting trends that reveal hidden opportunities. Ensure that each insight is original and provides fresh perspectives.\n\n    Example Insights:\n
+    or conflicting trends that reveal hidden opportunities. Ensure that each insight is original and provides fresh perspectives.\n\
+    Example Insights:\n"
     - There is a disconnect between the expert recommendation of intuitive eating and people's ingrained habits of following external food rules, 
     relying on data rather than bodily cues.\n
-    - There's a mismatch between people's desire for natural, whole-food nutrition and the prevalence of artificial supplements in the performance nutrition market.\n\n    Instructions:\n
+    - There's a mismatch between people’s desire for natural, whole-food nutrition and the prevalence of artificial supplements in the performance nutrition market.\n\
+    Instructions:\n"
     1. **Identify Tensions or Contradictions**: Look for contradictions or tensions in the research that might lead to surprising insights.\n
     2. **Generate Catchy Titles**: Each insight should have a compelling and catchy title that summarizes the tension or novel idea.\n
     3. **Provide Context**: After each insight, write a brief description that explains the underlying tension and the implications of the finding.\n
@@ -134,6 +139,121 @@ insight_task:
     A set of five novel, insightful, and cleverly formulated insights that address key contradictions or surprising trends in the research. 
     Each insight should include a catchy title, a brief description, relevant sources from the research, and an explanation of how it applies to the specific company and its strategic priorities.
 
+trends_task:
+  description: >
+    For the topic below, conduct research on market trends. Make sure to survey both demand and supply aspects. 
+    Do not only include aspects that are immediately related to the challenge, but also trends in the sector as a whole. 
+    Make sure to dig deep and go beyond the obvious to find interesting trends and weak signals. Be extensive, listing at least 10 items.\n\n
+    Context:\n
+    Sector: {sector}\n
+    Target Clients: {target_clients}\n
+    Resources: {resources}\n
+    Strategic Priorities: {strategic_priorities}\n
+    Project Name: {project_name}\n"
+    Challenge Description: {challenge_description}\n
+    Purpose: {purpose}\n
+    Focus Constraints: {focus_constraints}\n\n
+    Keep in mind that who reads your output is already an expert on this sector, so make sure to use accurate, up-to-date sources, and come up with non-obvious results.\n"
+  expected_output: >
+    Produce a list of at least 10 trends with the following structure:\n\n
+    1. **Catchy Title**: Title that succinctly captures the essence of the trend.\n
+    2. **Body**: A detailed discussion including:\n
+       - Description of the trend\n
+       - Main drivers of the trend\n
+       - Examples (mentioning relevant companies or products, where applicable)\n
+       - Links to sources for further reference.
+
+news_task:
+  description: >
+    Find ten recent news items from the sector mentioned below, that are relevant to the solution of the challenge 
+    or that could act as sources of inspiration.\n\
+    Context:\n
+    Sector: {sector}\n
+    Target Clients: {target_clients}\n
+    Resources: {resources}\n
+    Strategic Priorities: {strategic_priorities}\n
+    Project Name: {project_name}\n
+    Challenge Description: {challenge_description}\n
+    Purpose: {purpose}\n
+    Focus Constraints: {focus_constraints}\n\n
+  expected_output: >
+    A list of approximately 10 news items, each with:\n\n
+    1. **Headline**: A catchy title summarizing the news item.\n
+    2. **Summary**: A brief description of the news content.\n
+    3. **Relevance**: A clear explanation of its connection to the challenge.\n
+    4. **Source Link**: A clickable link to the source article. 
+
+costumers_task:
+  description: >
+    For the topic and challenge below, search for all the information you can find about its target customers, clients, or users. 
+    Who are they? What are they like? Collect demographic, psychographic, and behavioral information from reputable sources. 
+    Based on your findings, attempt a segmentation of the market.\n\
+    Context:\n
+    Sector: {sector}\n
+    Target Clients: {target_clients}\n
+    Resources: {resources}\n
+    Strategic Priorities: {strategic_priorities}\n
+    Project Name: {project_name}\n
+    Challenge Description: {challenge_description}\n
+    Purpose: {purpose}\n
+    Focus Constraints: {focus_constraints}\n\
+    Expected output:\n
+    Output a detailed analysis of the target users/customers/clients. For each, include:\n
+    1. **Features of the Target Audience**: Describe the demographic, psychographic, and behavioral traits of the audience, including:\n
+       - Age, gender, income level, education, and location.\n
+       - Values, interests, lifestyle choices, and attitudes.\n
+       - Purchasing behaviors, product preferences, and engagement patterns.\n
+    2. **Market Segmentation**: Provide a clear segmentation of the market based on the gathered information. Include segments with:\n
+       - Names or labels for the segments.\n
+       - Key characteristics of each segment.\n
+       - Potential relevance or appeal to the challenge.\n
+    3. **Insights**: Highlight any weak signals or interesting patterns that could be leveraged for the challenge. \
+    Keep in mind that who reads your output is already an expert on this sector, so make sure to use accurate, up-to-date sources, and come up with non-obvious results.\n
+  expected_output: >
+    Provide the following deliverables:\n\n
+    1. **Target Audience Features**: A detailed list of demographic, psychographic, and behavioral traits.\n
+    2. **Market Segmentation**: A clear segmentation of the market, naming and describing each segment.\n
+    3. **Relevance to Challenge**: A brief explanation of how these segments and audience traits relate to the challeng
+
+competitors_task:
+  description: >
+    Think step by step. Based on the challenge described below, what is the relevant market space or competitive field?
+    Typically, this will be a product category within a certain geographic area.
+    Then, for the market space identified, search for the most important solutions (products or services) available from competitors. 
+    So make sure to indetify the right queries, search for existing competitors in that space, and list their solutions.
+    Keep in mind that in these markets there will typically be a mix of large, global players and smaller local ones.
+    Be extensive in your listing. \n\
+    Then, identify the key competitive factors for products currently on the market that the client might find valuable.\n\
+    Context:\n
+    Sector: {sector}\n
+    Target Clients: {target_clients}\n
+    Resources: {resources}\n
+    Strategic Priorities: {strategic_priorities}\n
+    Project Name: {project_name}\n
+    Challenge Description: {challenge_description}\n
+    Purpose: {purpose}\n
+    Focus Constraints: {focus_constraints}\n\
+    Expected output:\n
+    1. **Competitor Solutions**: A detailed list of the most important products or services currently available in the market. For each solution, include:\n
+       - **Product/Service Name**: Name of the competitor solution.\n
+       - **Description**: A brief explanation of the product or service.\n
+       - **Provider**: Name of the company offering it.\n
+       - **Relevance**: How the solution relates to the challenge or target clients.\n
+       - **Link to Source**: URL to the product or service page, if available.\n\
+    2. **Competitive Factors**: A list of key competitive factors that define market success for similar solutions. For each factor, provide:\n
+       - **Factor Name**: Name or label for the competitive factor.\n
+       - **Description**: Explanation of why the factor is important.\n
+       - **Examples**: Instances of how competitors demonstrate these factors (if applicable).\n\
+    Ensure that the research is thorough and the output is actionable for addressing the challenge.
+    Keep in mind that who reads your output is already an expert on this sector, so make sure to use accurate, up-to-date sources, and come up with non-obvious results.\n
+  expected_output: >
+    Deliver the following:\n\n
+    1. **Competitor Solutions**:\n
+       - A detailed list of relevant products or services from competitors, with descriptions, providers, relevance, and links to sources.\n\n
+    2. **Competitive Factors**:\n
+       - A list of the key factors that make products successful in the market, with explanations and examples.\n
+
+
 opportunities_task:
   description: >
     Here are a few examples of opportunity spaces that flow from insights, with their title and main ideas list:
@@ -141,14 +261,14 @@ opportunities_task:
     Insight1        
     People don't think of financial services as individuals, they think for their whole family. Especially during recessions, people rely more and more on their family network        
     Opportunity space 1:
-    Family bundling: Seeing the family as a wider financial unit, throughout each stage of life. Helping families maximize collective benefits; facilitating seamless household management; Creating meaningful experiences for younger users        "
+    Family bundling: Seeing the family as a wider financial unit, throughout each stage of life. Helping families maximize collective benefits; facilitating seamless household management; Creating meaningful experiences for younger users        
     Ideas:
     Shared Family Dashboard
      Collective Minimal Spending: All family members' spending counts towards monthly minimum & cash back points 
      Payment Tracker: Keep track of upcoming utility payments and easily request family members to pay.
      Family Goals: Set a real shared family goal (e.g. trip to Thailand) and make the process of saving fun and educational through gamified features.
      Family Financial Education: Fun and interactive course for the whole family, including gamified weekly tasks. 
-     Family Cards: Branded credit/debit cards with family initials or images."
+     Family Cards: Branded credit/debit cards with family initials or images.
 
     Insight 2:
     People look for ways to improve their financial behavior, like saving plans and bargain hunting        
