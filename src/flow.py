@@ -4,6 +4,8 @@ from typing import Dict, Any
 from crewai.flow.flow import Flow, start, listen
 from src.crews import PatentCrew, ScholarCrew, InsightsCrew, DocAnalystCrew, OpportunitiesImagesCrew, OpportunitiesCrew, TrendsCrew, NewsCrew, CostumersCrew, CompetitorsCrew
 from src.config import DEFAULT_INPUT
+import json
+from datetime import datetime
 
 class InsightGen(Flow):
     CREW_MAPPING = {
@@ -116,18 +118,35 @@ class InsightGen(Flow):
             "opp_spaces_data": self.state.get("opp_spaces_results"),
             "opp_images_data": self.state.get("opp_images_results"),
         }
+def write_results_to_markdown(insights: Dict[str, Any], filename: str = "insights_results.md"):
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(f"# Insights Results\n\n")
+        f.write(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        
+        for key, value in insights.items():
+            f.write(f"## {key.replace('_', ' ').title()}\n\n")
+            if isinstance(value, dict):
+                f.write("```json\n")
+                f.write(json.dumps(value, indent=2))
+                f.write("\n```\n\n")
+            else:
+                f.write(f"{value}\n\n")
 
 async def run_flow(input_data: Dict[str, Any] = None, selected_crews: list = None):
-    selected_crews = ["patents", "scholar", "trends", "news"]
+    selected_crews = selected_crews or ["patents", "scholar", "trends", "news"]
     flow = InsightGen(input_data, selected_crews)
     try:
         my_insights = await flow.kickoff_async()
-        print("[INFO] Final Insights:", my_insights)
+        print("[INFO] Final Insights generated. Writing to file...")
+        write_results_to_markdown(my_insights)
+        print("[INFO] Results saved to insights_results.md")
         return my_insights
     except Exception as e:
-        print("[ERROR] Error in run_flow:", str(e))
-        return {"error": str(e)}
+        error_message = f"[ERROR] Error in run_flow: {str(e)}"
+        print(error_message)
+        write_results_to_markdown({"error": error_message})
+        return {"error": error_message}
 
 if __name__ == "__main__":
     insights = asyncio.run(run_flow())
-    print(insights)  # Optional: print the results
+    print("Results have been saved to insights_results.md")
