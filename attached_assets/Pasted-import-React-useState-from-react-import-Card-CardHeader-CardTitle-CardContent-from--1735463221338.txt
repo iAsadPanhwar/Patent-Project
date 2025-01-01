@@ -1,0 +1,160 @@
+import React, { useState } from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Plus, ChevronRight, Sparkles } from 'lucide-react';
+
+const IdeaCard = ({ idea }) => (
+  <Card className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+    <p className="text-gray-700">{idea}</p>
+  </Card>
+);
+
+const OpportunityCard = ({ title, description, image, ideas, index }) => {
+  const [expanded, setExpanded] = useState(false);
+  
+  const getImage = (index) => {
+    switch(index) {
+      case 0: return '/api/placeholder/400/300'; // AI Matchmaker image
+      case 1: return '/api/placeholder/400/300'; // Nonna's Pistachio image
+      case 2: return '/api/placeholder/400/300'; // Berry Boost image
+      case 3: return '/api/placeholder/400/300'; // Eco Packaging image
+      default: return '/api/placeholder/400/300';
+    }
+  };
+  
+  return (
+    <Card className="w-full mb-8 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <div className="flex flex-row">
+        <div className="flex-1 p-6">
+          <CardHeader className="p-0">
+            <CardTitle className="text-2xl font-bold mb-4">{title}</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <p className="text-gray-600 mb-6">{description}</p>
+            
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 gap-3">
+                {ideas.slice(0, 3).map((idea, idx) => (
+                  <IdeaCard key={idx} idea={idea} />
+                ))}
+              </div>
+              
+              {ideas.length > 3 && (
+                <div>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => setExpanded(!expanded)}
+                    className="text-blue-600 hover:text-blue-800 flex items-center gap-2 mt-3"
+                  >
+                    {expanded ? 'Show less' : 'See more ideas'}
+                    <ChevronRight className={`transform transition-transform ${expanded ? 'rotate-90' : ''}`} />
+                  </Button>
+                  
+                  {expanded && (
+                    <div className="grid grid-cols-1 gap-3 mt-4">
+                      {ideas.slice(3).map((idea, idx) => (
+                        <IdeaCard key={idx + 3} idea={idea} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </div>
+        <div className="w-1/3 relative">
+          <img 
+            src={getImage(index)}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+const AddOpportunityCard = () => (
+  <Card className="w-full h-48 mb-6 flex items-center justify-center hover:shadow-lg transition-shadow duration-300 cursor-pointer bg-gray-50">
+    <div className="text-center">
+      <Plus className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+      <p className="text-lg font-medium text-gray-600">Add New Opportunity</p>
+    </div>
+  </Card>
+);
+
+const GenerateOpportunityCard = () => (
+  <Card className="w-full h-48 mb-6 flex items-center justify-center hover:shadow-lg transition-shadow duration-300 cursor-pointer bg-blue-50">
+    <div className="text-center">
+      <Sparkles className="w-12 h-12 mx-auto mb-2 text-blue-400" />
+      <p className="text-lg font-medium text-blue-600">Generate New Opportunities</p>
+    </div>
+  </Card>
+);
+
+const OpportunitiesPage = () => {
+  const opportunities = [
+    {
+      title: "Tech-Enhanced Taste: Personalized Gelato Experiences",
+      description: "Leverage technology to personalize gelato offerings, enhance production efficiency, and create immersive customer experiences both in-store and online.",
+      ideas: [
+        "AI Flavor Matchmaker App: Develop an app that recommends gelato flavors based on individual taste profiles and dietary preferences.",
+        "Interactive In-Store Tablets: Install kiosks where customers can customize their gelato orders digitally.",
+        "Virtual Gelato Workshops: Host online classes teaching gelato-making techniques.",
+        "Augmented Reality (AR) Packaging: Use AR to allow customers to scan packaging and learn about ingredient origins.",
+        "Smart Production Systems: Implement AI-driven analytics to optimize recipes."
+      ]
+    },
+    {
+      title: "Tradition Reinvented: Classic Flavors, Healthier Choices",
+      description: "Reimagine traditional Italian gelato flavors using plant-based and low-sugar ingredients, preserving the authentic taste and texture that appeals to both traditionalists and health-conscious consumers.",
+      ideas: [
+        "Nonna's Pistachio Reborn: A plant-based, low-sugar version of classic pistachio gelato.",
+        "Dairy-Free Stracciatella: Recreate the beloved chocolate chip gelato using almond milk.",
+        "Heritage Hazelnut Delight: A lactose-free hazelnut gelato.",
+        "Sugar-Conscious Tiramisu Gelato: A low-sugar take on the classic Italian dessert.",
+        "Classic Lemon Zest Sorbetto: An all-natural, plant-based lemon sorbet."
+      ]
+    },
+    {
+      title: "Functional Indulgence: Gelato That Nourishes",
+      description: "Introduce gelato infused with functional ingredients like probiotics, antioxidants, and superfoods, offering health benefits beyond basic nutrition while delivering indulgent taste.",
+      ideas: [
+        "Antioxidant Berry Boost Gelato: A plant-based gelato made with acai berries and blueberries.",
+        "Probiotic Passion Fruit Gelato: Incorporate gut-friendly probiotics into tropical flavors.",
+        "Matcha Green Tea Fusion: A gelato blending matcha with almond milk.",
+        "Turmeric Ginger Glow: An anti-inflammatory gelato with coconut milk.",
+        "Chia Seed and Mango Medley: A refreshing gelato with omega-3-rich chia seeds."
+      ]
+    },
+    {
+      title: "Sustainable Scoop: Ethical Gelato Without the Premium Price",
+      description: "Adopt sustainable production and packaging practices to produce eco-friendly gelato options that do not significantly increase costs for consumers.",
+      ideas: [
+        "Eco-Packaging Initiative: Transition to biodegradable cups and spoons.",
+        "Local Farm Partnerships: Source ingredients from nearby farms.",
+        "Solar-Powered Production: Invest in renewable energy for facilities.",
+        "Upcycled Ingredient Line: Create flavors using upcycled fruits and nuts.",
+        "Transparency Labels: Detail the sustainable journey of each product."
+      ]
+    }
+  ];
+
+  return (
+    <div className="max-w-6xl mx-auto p-6">
+      <h1 className="text-4xl font-bold mb-8">Opportunity Spaces</h1>
+      <div className="grid grid-cols-1 gap-6">
+        {opportunities.map((opp, index) => (
+          <OpportunityCard key={index} {...opp} index={index} />
+        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <AddOpportunityCard />
+          <GenerateOpportunityCard />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default OpportunitiesPage;
+

@@ -1,0 +1,219 @@
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, ExternalLink, Plus, Square, CheckSquare } from 'lucide-react';
+
+const InsightsPage = () => {
+  // State for tracking selected cards in each section
+  const [selectedCards, setSelectedCards] = useState({
+    news: new Set(),
+    trends: new Set(),
+    customers: new Set(),
+    competitors: new Set()
+  });
+
+  const toggleCardSelection = (section, index) => {
+    setSelectedCards(prev => {
+      const newSet = new Set(prev[section]);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return { ...prev, [section]: newSet };
+    });
+  };
+
+  const toggleSelectAll = (section, totalItems) => {
+    setSelectedCards(prev => {
+      const currentSet = prev[section];
+      const newSet = new Set();
+      if (currentSet.size < totalItems) {
+        // Select all
+        for (let i = 0; i < totalItems; i++) {
+          newSet.add(i);
+        }
+      }
+      return { ...prev, [section]: newSet };
+    });
+  };
+
+  const categoryInsights = {
+    news: [
+      {
+        title: "Coffee Nation Craves Caffeine-Free Rituals",
+        content: "Despite Germany being Europe's largest coffee consumer, there's a surprising surge in demand for herbal coffee alternatives. Health-conscious millennials are seeking the familiar coffee experience without caffeine's side effects, highlighting a tension between tradition and wellness.",
+        sources: "Allied Market Research, Statista",
+        relevance: "Wilden Herbals can capitalize on this trend by offering a flagship herbal coffee alternative that mimics the traditional coffee experience."
+      },
+      {
+        title: "Sustainability Packaging: The Silent Deal-Breaker",
+        content: "German millennials place such a high value on eco-friendly packaging that it can outweigh their beverage choice. There's a contradiction where the packaging's sustainability can be more influential than the product's taste or ingredients.",
+        sources: "NielsenIQ",
+        relevance: "Wilden Herbals' use of biodegradable packaging directly appeals to this priority, providing a competitive edge."
+      },
+      {
+        title: "Local Flavor Beats Global Hype",
+        content: "While global wellness trends influence consumers, German millennials show a strong preference for products that incorporate local flavors and ingredients.",
+        sources: "Euromonitor",
+        relevance: "By integrating traditional German herbs into their herbal coffee alternative, Wilden Herbals can create a unique product that resonates with local tastes."
+      }
+    ],
+    trends: [
+      {
+        title: "Health-Conscious but Flavor-Selective",
+        content: "While German millennials are eager to adopt healthier lifestyles, they are selective about flavors, preferring milder tastes they associate with purity and healthiness.",
+        sources: "Financial Times, Mintel",
+        relevance: "In developing their product, Wilden Herbals should focus on creating mild-flavored herbal coffee alternatives that align with taste preferences."
+      },
+      {
+        title: "Digital Natives Crave Authentic Connections",
+        content: "Despite being highly engaged online, German millennials seek authentic brand connections and transparency. They are skeptical of purely digital interactions.",
+        sources: "Mintel, Euromonitor",
+        relevance: "Combine online platform with transparent storytelling about sourcing and production."
+      },
+      {
+        title: "Sustainability Advocates vs. Price Sensitivity",
+        content: "German millennials value sustainability but are also price-sensitive, creating a contradiction where they desire eco-friendly products at accessible prices.",
+        sources: "Euromonitor, Common Sense Home",
+        relevance: "Meeting the target retail price while maintaining sustainable practices is crucial."
+      }
+    ],
+    customers: [
+      {
+        title: "Urban Health Enthusiasts",
+        content: "Young professionals in major German cities leading the shift towards healthier beverage alternatives, particularly interested in products that support mental clarity and focus.",
+        sources: "Consumer Insights Report 2023",
+        relevance: "Target marketing in urban centers with emphasis on productivity benefits."
+      },
+      {
+        title: "Wellness Community Leaders",
+        content: "Influential individuals in wellness and fitness communities seeking alternatives to traditional coffee for their followers and clients.",
+        sources: "Social Media Analysis",
+        relevance: "Potential for partnerships and community-driven marketing."
+      }
+    ],
+    competitors: [
+      {
+        title: "Traditional Herbal Brands",
+        content: "Established German herbal tea companies expanding into coffee alternatives, leveraging their existing brand recognition and distribution networks.",
+        sources: "Market Analysis",
+        relevance: "Need to differentiate through innovative formulations and positioning."
+      },
+      {
+        title: "International Wellness Brands",
+        content: "Global health brands entering the German market with premium-positioned coffee alternatives, often lacking local market understanding.",
+        sources: "Competitor Analysis",
+        relevance: "Opportunity to emphasize local authenticity and connections."
+      }
+    ]
+  };
+
+  const keyInsights = [
+    {
+      category: "Market Overview",
+      title: "Coffee Nation Craves Caffeine-Free Rituals",
+      content: "Despite Germany being Europe's largest coffee consumer, there's a surprising surge in demand for herbal coffee alternatives. Health-conscious millennials are seeking the familiar coffee experience without caffeine's side effects.",
+      sources: "Allied Market Research, Statista",
+      impact: "Strong market potential for herbal coffee alternatives that maintain traditional coffee rituals."
+    }
+  ];
+
+  // ... (keep the rest of the data - expertsResearch and patents - unchanged)
+
+  const InsightSection = ({ title, insights, section }) => (
+    <div className="mb-8">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-bold capitalize">{title}</h3>
+        <button 
+          onClick={() => toggleSelectAll(section, insights.length)}
+          className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center gap-2"
+        >
+          {selectedCards[section].size === insights.length ? 'Deselect All' : 'Select All'}
+        </button>
+      </div>
+      <div className="overflow-x-auto">
+        <div className="flex space-x-4 pb-4">
+          {insights.map((insight, index) => (
+            <div key={index} className="bg-white p-4 rounded-lg shadow-sm min-w-[300px] max-w-[300px] relative">
+              <button
+                onClick={() => toggleCardSelection(section, index)}
+                className="absolute top-4 right-4"
+              >
+                {selectedCards[section].has(index) ? 
+                  <CheckSquare className="w-5 h-5 text-blue-600" /> : 
+                  <Square className="w-5 h-5 text-gray-400" />
+                }
+              </button>
+              <h4 className="font-bold mb-2 pr-8">{insight.title}</h4>
+              <p className="text-sm text-gray-600 mb-3">{insight.content}</p>
+              <p className="text-xs text-gray-500 mb-2">Sources: {insight.sources}</p>
+              <p className="text-xs font-medium">Relevance: {insight.relevance}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="max-w-7xl mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-4">Insights</h1>
+      
+      {/* Project Summary */}
+      <div className="bg-gray-50 p-4 rounded-lg mb-8">
+        <p className="text-sm text-gray-600 mb-2">
+          <span className="font-medium">Challenge:</span> Development of a Flagship Herbal Coffee Alternative for the German Market
+        </p>
+        <p className="text-sm text-gray-600 mb-2">
+          <span className="font-medium">Description:</span> Create a unique product specifically for health-conscious millennials in Germany that combines local flavor inspiration with health benefits
+        </p>
+        <p className="text-sm text-gray-600">
+          <span className="font-medium">Constraints:</span> Target retail price €14 per pack, adapting to target segment consumer tastes, ensuring limited overlap with existing products
+        </p>
+      </div>
+
+      {/* Key Insights Section */}
+      <div className="mb-12">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">Key Insights</h2>
+          <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Generate Opportunities
+          </button>
+        </div>
+        <div className="relative">
+          <div className="overflow-x-auto flex space-x-6 pb-4">
+            {keyInsights.map((insight, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md min-w-[400px] max-w-[400px]">
+                <div className="text-sm text-blue-600 mb-2">{insight.category}</div>
+                <h3 className="font-bold mb-3">{insight.title}</h3>
+                <p className="text-gray-600 mb-4">{insight.content}</p>
+                <p className="text-sm text-gray-500 mb-2">Sources: {insight.sources}</p>
+                <p className="text-sm font-medium">Impact: {insight.impact}</p>
+              </div>
+            ))}
+            <div className="bg-white p-6 rounded-lg shadow-md min-w-[400px] max-w-[400px] border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors">
+              <Plus className="w-8 h-8 text-gray-400 mb-2" />
+              <p className="text-gray-600 font-medium">Add New Key Insight</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Category Sections */}
+      <InsightSection title="News" insights={categoryInsights.news} section="news" />
+      <InsightSection title="Trends" insights={categoryInsights.trends} section="trends" />
+      <InsightSection title="Customers" insights={categoryInsights.customers} section="customers" />
+      <InsightSection title="Competitors" insights={categoryInsights.competitors} section="competitors" />
+
+      {/* ... (keep the experts and patents tables unchanged) */}
+
+      {/* Bottom Generate Opportunities Button */}
+      <div className="flex justify-center mt-8 mb-4">
+        <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          Generate Opportunities
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default InsightsPage;

@@ -1,0 +1,254 @@
+import React, { useState } from 'react';
+import { ChevronRight, ChevronLeft, Menu, X, Home, FileText, Lightbulb, Settings, Upload, ChevronDown, Target } from 'lucide-react';
+
+const DemoApp = () => {
+  const [currentPage, setCurrentPage] = useState('login');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [selectedSources, setSelectedSources] = useState([]);
+  const [expandedTables, setExpandedTables] = useState({
+    trends: true,
+    experts: true,
+    patents: true
+  });
+
+  const defaultProjectInfo = {
+    name: "Eco-Friendly Materials Development for FLiPO Eyewear",
+    description: "Develop eco-friendly materials for frames and lenses to meet growing consumer demand for sustainable products",
+    purpose: "To align FLiPO Eyewear's product offerings with environmental sustainability trends, thereby attracting eco-conscious consumers and differentiating the brand in the competitive eyewear market",
+    constraints: "Ensure materials meet durability standards while maintaining affordability; maintain aesthetic appeal and comfort; comply with industry regulations and standards"
+  };
+
+  const [currentProject, setCurrentProject] = useState(defaultProjectInfo);
+
+  const sourceOptions = [
+    { id: 'trends', label: 'Trends Analysis' },
+    { id: 'patents', label: 'Patents Research' },
+    { id: 'academic', label: 'Academic Research' },
+    { id: 'experts', label: 'Expert Insights' },
+    { id: 'social', label: 'Social Media Analysis' },
+    { id: 'upload', label: 'Upload Source' }
+  ];
+
+  const Sidebar = () => {
+    return (
+      <div className={`fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-200 ease-in-out z-30`}>
+        <div className="p-4">
+          <button onClick={() => setIsSidebarOpen(false)} className="mb-4">
+            <X size={24} />
+          </button>
+          <nav className="space-y-6">
+            <div className="space-y-2">
+              <button 
+                onClick={() => { setCurrentPage('dashboard'); setIsSidebarOpen(false); }}
+                className="flex items-center space-x-2 w-full p-2 hover:bg-gray-100 rounded"
+              >
+                <Home size={20} />
+                <span>Dashboard</span>
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              <div className="px-2 text-sm font-semibold text-gray-600">
+                {currentProject.name}
+              </div>
+              <button 
+                onClick={() => { setCurrentPage('insights'); setIsSidebarOpen(false); }}
+                className="flex items-center space-x-2 w-full p-2 hover:bg-gray-100 rounded pl-4"
+              >
+                <Lightbulb size={20} />
+                <span>Insights</span>
+              </button>
+              <button 
+                onClick={() => { setCurrentPage('opportunities'); setIsSidebarOpen(false); }}
+                className="flex items-center space-x-2 w-full p-2 hover:bg-gray-100 rounded pl-4"
+              >
+                <Target size={20} />
+                <span>Opportunities</span>
+              </button>
+            </div>
+          </nav>
+        </div>
+      </div>
+    );
+  };
+
+  const Header = () => {
+    return (
+      <div className="bg-white p-4 shadow-sm flex items-center">
+        <button onClick={() => setIsSidebarOpen(true)} className="p-2 hover:bg-gray-100 rounded">
+          <Menu size={24} />
+        </button>
+        <h1 className="ml-4 text-xl font-semibold">Quartzium Innovate</h1>
+      </div>
+    );
+  };
+
+  const Login = () => {
+    return (
+      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6">Login</h2>
+        <div className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full p-2 border rounded"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-2 border rounded"
+          />
+          <button 
+            onClick={() => setCurrentPage('dashboard')}
+            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const Dashboard = () => {
+    return (
+      <div className="max-w-6xl mx-auto mt-10 p-6">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl font-bold">Dashboard</h2>
+          <button 
+            onClick={() => setCurrentPage('newProject')}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+          >
+            <FileText size={20} />
+            New Project
+          </button>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">Eco-Materials Research</h3>
+            <p className="text-gray-600 mt-2">Analysis of sustainable materials for next-gen eyewear</p>
+            <div className="mt-4">
+              <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">In Progress</span>
+            </div>
+            <button 
+              onClick={() => setCurrentPage('insights')}
+              className="mt-4 text-blue-600 flex items-center gap-1"
+            >
+              View Insights
+              <ChevronRight size={16} />
+            </button>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">Market Analysis 2024</h3>
+            <p className="text-gray-600 mt-2">Competitive landscape and consumer trends</p>
+            <div className="mt-4">
+              <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Completed</span>
+            </div>
+            <button 
+              onClick={() => setCurrentPage('insights')}
+              className="mt-4 text-blue-600 flex items-center gap-1"
+            >
+              View Insights
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const NewProject = () => {
+    return (
+      <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6">New Project</h2>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Project Name</label>
+            <input
+              defaultValue={defaultProjectInfo.name}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Challenge Description</label>
+            <textarea
+              defaultValue={defaultProjectInfo.description}
+              className="w-full p-2 border rounded"
+              rows="3"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Purpose</label>
+            <textarea
+              defaultValue={defaultProjectInfo.purpose}
+              className="w-full p-2 border rounded"
+              rows="3"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Focus/Constraints</label>
+            <textarea
+              defaultValue={defaultProjectInfo.constraints}
+              className="w-full p-2 border rounded"
+              rows="3"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="font-medium">Select Sources</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {sourceOptions.map((source) => (
+                <label key={source.id} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedSources.includes(source.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedSources([...selectedSources, source.id]);
+                      } else {
+                        setSelectedSources(selectedSources.filter(id => id !== source.id));
+                      }
+                    }}
+                    className="form-checkbox"
+                  />
+                  <span>{source.label}</span>
+                </label>
+              ))}
+            </div>
+            
+            {selectedSources.includes('upload') && (
+              <div className="mt-4 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                <p className="mt-2 text-sm text-gray-600">Drag and drop files here, or click to select files</p>
+                <input type="file" className="hidden" multiple />
+              </div>
+            )}
+          </div>
+
+          <button 
+            onClick={() => setCurrentPage('insights')}
+            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          >
+            Generate Insights
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {currentPage !== 'login' && <Header />}
+      {currentPage !== 'login' && <Sidebar />}
+      <div className={`${currentPage !== 'login' ? 'pt-4' : ''}`}>
+        {currentPage === 'login' && <Login />}
+        {currentPage === 'dashboard' && <Dashboard />}
+        {currentPage === 'newProject' && <NewProject />}
+      </div>
+    </div>
+  );
+};
+
+export default DemoApp;
+

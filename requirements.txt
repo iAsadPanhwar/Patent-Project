@@ -2,4 +2,6 @@ crewai==0.76.9
 crewai_tools==0.13.4
 langchain_community==0.3.5
 chromadb
+fastapi
+uvicorn
 python-dotenv
